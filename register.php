@@ -7,14 +7,14 @@ if (isset($_POST['email']) && isset($_POST['password_1'])) {
     $name = mysqli_real_escape_string($connection, $_POST['name']);
     $email = mysqli_real_escape_string($connection, $_POST['email']);
     $password = mysqli_real_escape_string($connection, $_POST['password_1']);
-    /* $password = password_hash($_POST['password']); */
+    $hashed_pass = password_hash($password, PASSWORD_BCRYPT);
     $type = mysqli_real_escape_string($connection, $_POST['type']);
 
 
     if ($_POST['type'] == 'C') {
-        $query = "INSERT INTO tb_client (CLIENT_name, CLIENT_email, CLIENT_password, CLIENT_type) VALUES ('$name', '$email', '$password', '$type')";
+        $query = "INSERT INTO tb_client (CLIENT_name, CLIENT_email, CLIENT_password, CLIENT_type) VALUES ('$name', '$email', '$hashed_pass', '$type')";
     } elseif ($_POST['type'] == 'O') {
-        $query = "INSERT INTO tb_owner (OWNER_name, OWNER_email, OWNER_password, OWNER_type) VALUES ('$name', '$email', '$password', '$type')";
+        $query = "INSERT INTO tb_owner (OWNER_name, OWNER_email, OWNER_password, OWNER_type) VALUES ('$name', '$email', MD5('$password'), '$type')";
     }
 
     $result = mysqli_query($connection, $query);
@@ -68,7 +68,7 @@ if (isset($_POST['email']) && isset($_POST['password_1'])) {
             <input class="form-check-input" type="radio" name="type" value="O">
             <label class="form-check-label">Barber/Hairdresser</label>
         </div>
-        
+
         <div class="g-recaptcha" data-sitekey="6Lf5sYIUAAAAAJq1GLVSgvnhxpH8edwoABtaG0i9"></div>
         
         <button type="submit" class="btn btn-lg btn-primary btn-block">Register</button>

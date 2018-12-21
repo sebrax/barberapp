@@ -13,7 +13,17 @@ $password = mysqli_real_escape_string($connection, $_POST['password']);
 if ($_POST['type'] == 'A') {
     $query = "SELECT * from tb_admin WHERE ADMIN_login = '{$user}' and ADMIN_password = '{$password}'";
 } elseif ($_POST['type'] == 'C') {
-    $query = "SELECT * from tb_client WHERE CLIENT_email = '{$user}' and CLIENT_password = '{$password}'";
+    /* $query = "SELECT * from tb_client WHERE CLIENT_email = '{$user}' and CLIENT_password = '{$password}'"; */
+    $query = "SELECT * from tb_client WHERE CLIENT_email = '{$user}'";
+    $tbl = mysqli_query($connection, $query);
+    if(mysqli_num_rows($tbl)>0) {
+        $row = mysqli_fetch_array($tbl);
+        $password_hash = $row['CLIENT_password'];
+        if(password_verify($password, $password_hash))
+        {
+            header('Location: user-dashboard.php');
+        }
+    }
 } elseif ($_POST['type'] == 'O') {
     $query = "SELECT * from tb_owner WHERE OWNER_email = '{$user}' and OWNER_password = '{$password}'";
 }
