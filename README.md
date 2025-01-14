@@ -1,6 +1,4 @@
 # barberapp
-Barber/Hairdresser Appointment System
+Simple Barber/Hairdresser Appointment System made in Vanilla PHP that I made for a friend.
 
-Download/Clone to your apache folder and run it.
-
-All database config vars are stored on connection.php
+All database config are stored on connection.php
